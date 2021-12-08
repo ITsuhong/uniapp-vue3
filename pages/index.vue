@@ -44,7 +44,6 @@ page {
 }
 </style>
 <style scoped lang="less">
-@import '@/common.less';
 .container {
   
 }
