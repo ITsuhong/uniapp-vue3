@@ -123,7 +123,7 @@ export default {
               this.$checkPermission({
                 iOS: 'photoLibrary',
                 Android: 'android.permission.WRITE_EXTERNAL_STORAGE',
-                WEIXIN: 'scope.writePhotosAlbum'
+                // WEIXIN: 'scope.writePhotosAlbum'
               });
             }
           });
@@ -139,7 +139,7 @@ export default {
               this.$checkPermission({
                 iOS: 'photoLibrary',
                 Android: 'android.permission.WRITE_EXTERNAL_STORAGE',
-                WEIXIN: 'scope.writePhotosAlbum'
+                // WEIXIN: 'scope.writePhotosAlbum'
               });
             }
           });

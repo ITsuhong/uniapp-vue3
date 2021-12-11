@@ -38,7 +38,7 @@ export default function request(url, option) {
         isShowModal = true
         uni.showModal({
           title: '注意',
-          content: '您的账号已在其他设备登录/已被冻结！',
+          content: '您的登录信息已过期，请重新登录！',
           showCancel: false,
           success: res => {
             if (res.confirm) {

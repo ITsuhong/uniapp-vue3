@@ -111,7 +111,7 @@
             "urlCheck" : false,
             "es6" : false,
             "postcss" : false,
-            "minified" : false
+            "minified" : true
         },
         "usingComponents" : true,
         "permission" : {
@@ -121,6 +121,9 @@
         },
         "uniStatistics" : {
             "enable" : false
+        },
+        "optimization" : {
+          "subPackages" : true
         }
     },
     "uniStatistics" : {

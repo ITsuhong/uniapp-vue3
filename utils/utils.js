@@ -61,7 +61,7 @@ export function formatPrice(num) {
 export async function getOSSData() {
   const encBase64 = require('crypto-js/enc-base64');
   const HmacSHA1 = require('crypto-js/hmac-sha1');
-  const { Base64 } = require('@/utils/base64.min.js');
+  const encUtf8 = require('crypto-js/enc-utf8');
   const { data } = await getApp().$vm.$store.dispatch({ type: 'oss/getSTSInfo' })
   const policyText = {
     expiration: data.Credentials.Expiration, // 设置policy过期时间。
@@ -70,7 +70,7 @@ export async function getOSSData() {
       ["content-length-range", 0, 500 * 1024 * 1024], 
     ],
   };
-  const policy = Base64.encode(JSON.stringify(policyText)) // policy必须为base64的string。
+  const policy = encBase64.stringify(encUtf8.parse(JSON.stringify(policyText))) // policy必须为base64的string。
   // 计算签名。
   function computeSignature(accessKeySecret, canonicalString) {
     return encBase64.stringify(HmacSHA1(canonicalString, accessKeySecret));
