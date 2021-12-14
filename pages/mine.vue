@@ -6,19 +6,14 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import useMapState from '@/hooks/useMapState.js'
 import { getUnionuser } from '@/utils/config.js';
 export default {
-  data() {
+  setup() {
     return {
-    };
+      
+    }
   },
-  methods: {
-    
-  },
-  onLoad() {},
-  onShow() {
-  }
 };
 </script>
 

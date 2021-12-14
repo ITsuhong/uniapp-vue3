@@ -6,20 +6,15 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import useMapState from '@/hooks/useMapState.js'
 export default {
-  data() {
+  setup() {
     return {
-      
-    };
-  },
-  computed: {
-    ...mapState({
-      pagination: ({ home }) => home.pagination,
-      loading: ({ loading }) => loading.effects['home/query']
-    })
-  },
-  methods: {
+      ...useMapState({
+        pagination: ({ home }) => home.pagination,
+        loading: ({ loading }) => loading.effects['home/query']
+      }),
+    }
   }
 };
 </script>
