@@ -25,8 +25,8 @@ export default function request(url, option) {
       apiSecret: md5(md5(timestamp + "ccys")),
       
     },
-  }).then(([error,res]) => {
-    // console.log(error,res,123)
+  }).then((res) => {
+    // console.log(res,123)
     if (res.statusCode == 200) {
       return res.data
     } else if (res.statusCode == 401) {
