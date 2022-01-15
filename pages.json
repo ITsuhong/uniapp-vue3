@@ -28,14 +28,14 @@
       "style": {
         "navigationBarTitleText": "详情"
       }
-    },
-    {
-      "path": "uni_modules/vk-uview-ui/components/u-avatar-cropper/u-avatar-cropper",
-      "style": {
-        "navigationBarTitleText": "头像裁剪",
-        "navigationBarBackgroundColor": "#000000"
-      }
     }
+    // {
+    //   "path": "uni_modules/vk-uview-ui/components/u-avatar-cropper/u-avatar-cropper",
+    //   "style": {
+    //     "navigationBarTitleText": "头像裁剪",
+    //     "navigationBarBackgroundColor": "#000000"
+    //   }
+    // }
   ],
   "tabBar": {
     "color": "#7A7E83",

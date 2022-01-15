@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { createStore } from 'vuex'
 import createLoadingPlugin from "@/utils/vuex-loading.js";
 

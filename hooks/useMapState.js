@@ -7,11 +7,13 @@ export default function (state) {
     const storeStateFns = mapState(state)
     // 3. 存放处理好的数据对象
     const storeState = {}
+    
     // 4. 对每个函数进行computed
     Object.keys(storeStateFns).forEach(fnKey => {
         const fn = storeStateFns[fnKey].bind({ $store: store })
         // 遍历生成这种数据结构 => {name: ref(), age: ref()}
         storeState[fnKey] = computed(fn)
     })
+    console.log(storeState)
     return storeState
 }
