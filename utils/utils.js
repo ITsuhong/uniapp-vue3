@@ -57,12 +57,12 @@ export function formatPrice(num) {
   return parseInt(Number(num)) + '.' + ((Number(num) - parseInt(num)) > 0 ? parseInt((Number(num) - parseInt(num)) * 10) + '' + parseInt(((Number(num) - parseInt(num))) * 100 % 10) : '00')
 }
 
-
+import encBase64 from 'crypto-js/enc-base64';
+import HmacSHA1 from 'crypto-js/hmac-sha1';
+import encUtf8 from 'crypto-js/enc-utf8';
+import { useStore } from 'vuex'
 export async function getOSSData() {
-  const encBase64 = require('crypto-js/enc-base64');
-  const HmacSHA1 = require('crypto-js/hmac-sha1');
-  const encUtf8 = require('crypto-js/enc-utf8');
-  const { data } = await getApp().$vm.$store.dispatch({ type: 'oss/getSTSInfo' })
+  const { data } = await useStore().dispatch({ type: 'oss/getSTSInfo' })
   const policyText = {
     expiration: data.Credentials.Expiration, // 设置policy过期时间。
     conditions: [

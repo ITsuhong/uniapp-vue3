@@ -1,22 +1,11 @@
 <template>
   <view class="container">
     2
-    <u-no-network></u-no-network>
   </view>
 </template>
 
-<script>
-import useMapState from '@/hooks/useMapState.js'
-export default {
-  setup() {
-    return {
-      ...useMapState({
-        pagination: ({ home }) => home.pagination,
-        loading: ({ loading }) => loading.effects['home/query']
-      }),
-    }
-  }
-};
+<script setup>
+  
 </script>
 
 <style>

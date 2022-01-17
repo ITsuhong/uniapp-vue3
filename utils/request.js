@@ -2,18 +2,12 @@ import { requestUrl, getToken } from '@/utils/config';
 import md5 from 'md5';
 
 let isShowModal = false
-export default function request(url, option) {
-  const { data, method, requestType } = option
-  for (let key in data) {
-    if (data[key] == undefined) {
-      delete data[key]
-    }
-  }
-  if (url.substr(0, 4) != 'http')
-    url = requestUrl + url
+export default async function request(url, { data, method, requestType }) {
+  Object.keys(data).forEach(key => data[key] === undefined && delete data[key])
+  if (url.substr(0, 4) != 'http') url = requestUrl + url
   console.log(url, data)
   const timestamp = new Date().getTime()
-  return uni.request({
+  const response = await uni.request({
     url,
     data,
     method: method?.toUpperCase() || 'GET',
@@ -23,9 +17,8 @@ export default function request(url, option) {
       'api-version': 1,
       timestamp,
       apiSecret: md5(md5(timestamp + "ccys")),
-      
-    },
-  }).then((res) => {
+    }
+  }).then(res => {
     // console.log(res,123)
     if (res.statusCode == 200) {
       return res.data
@@ -48,7 +41,7 @@ export default function request(url, option) {
           }
         })
       }
-      throw res
+      throw res // 401抛除异常，页面上要catch到做业务处理 比如在我的页面401之后要catch做页面刷新处理
     } else {
       if (!isShowModal) {
         isShowModal = true
@@ -64,15 +57,14 @@ export default function request(url, option) {
           }
         })
       }
-      throw res
     }
   }).catch(res => {
-    console.log(res, 999)
-    if (!isShowModal) {
+    console.log(res, 'catchRes')
+    if (!isShowModal && !res.statusCode) {
       isShowModal = true
       uni.showModal({
         title: '网络错误',
-        content: res.errMsg || 'net::ERR_FAILED',
+        content: 'net::ERR_FAILED',
         showCancel: false,
         confirmText: '知道了',
         success: res => {
@@ -84,4 +76,5 @@ export default function request(url, option) {
     }
     throw res
   });
+  return response
 };

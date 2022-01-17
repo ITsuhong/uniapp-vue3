@@ -1,20 +1,12 @@
 <template>
   <view class="container">
     3
-    <u-no-network></u-no-network>
   </view>
 </template>
 
-<script>
-import useMapState from '@/hooks/useMapState.js'
+<script setup>
 import { getUnionuser } from '@/utils/config.js';
-export default {
-  setup() {
-    return {
-      
-    }
-  },
-};
+
 </script>
 
 <style>
