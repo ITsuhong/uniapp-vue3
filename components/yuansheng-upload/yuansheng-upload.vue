@@ -184,13 +184,12 @@ const handlePreview = record => {
 .container {
   display: flex;
   flex-wrap: wrap;
+  gap: 30rpx;
 }
 
 .imgBox {
   width: 200rpx;
   height: 200rpx;
-  margin-right: 20rpx;
-  margin-bottom: 20rpx;
   position: relative;
   border-radius: 10rpx;
   overflow: hidden;
