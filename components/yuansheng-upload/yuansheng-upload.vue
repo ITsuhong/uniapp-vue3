@@ -15,7 +15,7 @@
             class="uploadIcon"
             :src="fileType == 'video' ? item.url + ossSuffix : item.url"
           ></image>
-          <u-icon v-if="closeAble" @click="handleDelete(index)" class="deleteIcon" name="close-circle-fill" color="#f50" size="50"></u-icon>
+          <uni-icons v-if="closeAble" @click="handleDelete(index)" class="deleteIcon" type="clear" color="#f50" :size="24"></uni-icons>
         </view>
       </template>
 
