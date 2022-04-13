@@ -111,9 +111,11 @@
             "urlCheck" : false,
             "es6" : false,
             "postcss" : false,
-            "minified" : true
+            "minified" : true,
+            "minifyWXML": true
         },
         "usingComponents" : true,
+        "lazyCodeLoading": "requiredComponents",
         "permission" : {
             "scope.userLocation" : {
                 "desc" : "你的位置信息将用于小程序位置接口的效果展示"
