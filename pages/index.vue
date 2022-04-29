@@ -1,18 +1,34 @@
 <template>
   <view class="container">
-    1
+    123
+    <avatar-cropper
+      selWidth="500rpx"
+      selHeight="500rpx"
+      stretch="short"
+      :inner="true"
+      @upload="myUpload"
+      :avatarSrc="avatarUrl"
+      avatarStyle="width: 200rpx; height: 200rpx; border-radius: 0;"
+    ></avatar-cropper>
+
     <yuansheng-loadmore :loading="loading" :pagination="pagination"></yuansheng-loadmore>
   </view>
 </template>
 
 <script setup>
 import { onShow, onLoad, onReachBottom } from '@dcloudio/uni-app';
-import { useStore } from 'vuex';
 import { computed, ref, getCurrentInstance } from 'vue';
+import useHomeStore from '@/stores/index/home';
+const myUpload = rsp => {
+  // this.url = rsp.path; //更新头像方式一
+  //rsp.avatar.imgSrc = rsp.path; //更新头像方式二
+  console.log(rsp);
+  avatarUrl.value = rsp.path
+};
+const avatarUrl = ref('/static/tabbar/icon_home_click@2x.png');
 
-const store = useStore();
-const pagination = computed(() => store.state.home.pagination); //ref对象
-const loading = computed(() => store.state.loading.effects['home/query']);
+const homeStore = useHomeStore()
+const { pagination, loading } = homeStore
 onShow(() => {
   console.log('onShow');
 });
@@ -21,13 +37,12 @@ onLoad(() => {
 });
 
 onReachBottom(() => {
-  console.log('onReachBottom',pagination);
-  const { current, pageSize, total } = pagination.value;
+  console.log('onReachBottom', pagination);
+  const { current, pageSize, total } = pagination;
   if (current * pageSize < total) {
-    // store.dispatch({ type: 'home/queryGoodsList', payload: { pageNum: current + 1 } });
+    // homeStore.query({ pageNum: current + 1 })
   }
 });
-
 </script>
 
 <style>

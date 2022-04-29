@@ -60,9 +60,9 @@ export function formatPrice(num) {
 import encBase64 from 'crypto-js/enc-base64';
 import HmacSHA1 from 'crypto-js/hmac-sha1';
 import encUtf8 from 'crypto-js/enc-utf8';
-import { useStore } from 'vuex'
+import useGlobalStore from '@/stores/global';
 export async function getOSSData() {
-  const { data } = await useStore().dispatch({ type: 'oss/getSTSInfo' })
+  const { data } = await useGlobalStore().getSTSInfo()
   const policyText = {
     expiration: data.Credentials.Expiration, // 设置policy过期时间。
     conditions: [
