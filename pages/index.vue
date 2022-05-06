@@ -17,8 +17,9 @@
 
 <script setup>
 import { onShow, onLoad, onReachBottom } from '@dcloudio/uni-app';
-import { computed, ref, getCurrentInstance } from 'vue';
+import { computed, ref, getCurrentInstance, toRefs } from 'vue';
 import useHomeStore from '@/stores/index/home';
+import { storeToRefs } from 'pinia'
 const myUpload = rsp => {
   // this.url = rsp.path; //更新头像方式一
   //rsp.avatar.imgSrc = rsp.path; //更新头像方式二
@@ -28,7 +29,8 @@ const myUpload = rsp => {
 const avatarUrl = ref('/static/tabbar/icon_home_click@2x.png');
 
 const homeStore = useHomeStore()
-const { pagination, loading } = homeStore
+// const { pagination, loading } = homeStore  // ❌ 这不起作用，因为它会破坏响应式 // 这和从 props 解构是一样的
+const { pagination, loading } = storeToRefs(homeStore)
 onShow(() => {
   console.log('onShow');
 });
@@ -37,8 +39,7 @@ onLoad(() => {
 });
 
 onReachBottom(() => {
-  console.log('onReachBottom', pagination);
-  const { current, pageSize, total } = pagination;
+  const { current, pageSize, total } = pagination.value;
   if (current * pageSize < total) {
     // homeStore.query({ pageNum: current + 1 })
   }
