@@ -1,11 +1,11 @@
 import { ref } from 'vue';
-const loading = ref(false)
 export default ({ store }) => {
   // // 确保您的打包器可以处理这个问题。 webpack 和 vite 应该默认这样做
   if(process.env.NODE_ENV === 'development') {
     // 添加您在 store 中设置的任何 keys
     // store._customProperties.add('hello')
   }
+  const loading = ref(false)
   store.loading = loading
   store.$subscribe(() => {
     // 在存储变化的时候执行

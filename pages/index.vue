@@ -19,6 +19,7 @@
 import { onShow, onLoad, onReachBottom } from '@dcloudio/uni-app';
 import { computed, ref, getCurrentInstance, toRefs } from 'vue';
 import useHomeStore from '@/stores/index/home';
+import useGlobalStore from '@/stores/global';
 import { storeToRefs } from 'pinia'
 const myUpload = rsp => {
   // this.url = rsp.path; //更新头像方式一
@@ -31,6 +32,7 @@ const avatarUrl = ref('/static/tabbar/icon_home_click@2x.png');
 const homeStore = useHomeStore()
 // const { pagination, loading } = homeStore  // ❌ 这不起作用，因为它会破坏响应式 // 这和从 props 解构是一样的
 const { pagination, loading } = storeToRefs(homeStore)
+const globalStore = useGlobalStore()
 onShow(() => {
   console.log('onShow');
 });
