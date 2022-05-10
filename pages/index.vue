@@ -2,8 +2,8 @@
   <view class="container">
     123
     <avatar-cropper
-      selWidth="500rpx"
-      selHeight="500rpx"
+      selWidth="600rpx"
+      selHeight="600rpx"
       stretch="short"
       :inner="true"
       @upload="myUpload"
