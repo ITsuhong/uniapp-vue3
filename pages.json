@@ -20,6 +20,21 @@
         "enablePullDownRefresh": false
       }
     },
+    //#ifdef APP-PLUS
+    {
+      "path": "platforms/app-plus/android/privacy",
+      "style": {
+        "navigationStyle": "custom",
+        "backgroundColor": "transparent", // 防止ios不透明
+        "app-plus": {
+          "bounce": "none",
+          "animationType": "fade-in",
+          "background": "transparent",
+          "popGesture": "none"
+        }
+      }
+    },
+    //#endif
     {
       "path": "pages/richText",
       "style": {
