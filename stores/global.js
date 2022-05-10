@@ -14,11 +14,11 @@ export default defineStore('global', {
 		},
     async checkAndroidUpdate(payload) {
       const response = await services_sys.checkAndroidUpdate({ ...payload })
-      if(response?.code == 200) {
-        this.apkInfo = response.data
+      if(response.id) {
+        this.apkInfo = response
         plus.runtime.getProperty(plus.runtime.appid, res => {
           // console.log(res.version);
-          if(res.version != response.data?.newVersion){
+          if(res.version != response.newVersion){
             setTimeout(() => uni.getSubNVueById('appUpdate').show(),500); 
             this.haveNew = true
           }

@@ -3,7 +3,21 @@
       "path": "pages/index",
       "style": {
         "navigationBarTitleText": "首页",
-        "enablePullDownRefresh": false
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "bounce": "none",
+          "titleNView": false,
+          "subNVues": [{
+            "id": "appUpdate",
+            "path": "platforms/app-plus/subNVue/appUpdate",
+            "type": "popup",
+            "style": {
+              "popGesture": "none",
+              "background": "rgba(0,0,0,0)",
+              "zindex": 99999
+            }
+          }]
+        }
       }
     },
     {

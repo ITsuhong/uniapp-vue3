@@ -38,5 +38,5 @@ export async function changePhone(data) {
 
 // 检测安卓更新
 export async function checkAndroidUpdate(data) {
-  return request('https://app.cdhongmu.com/areaShop/common/api/app/update/android', { data });
+  return request('/common/checkUpdate', { data });
 }
