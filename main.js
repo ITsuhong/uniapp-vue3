@@ -28,8 +28,8 @@ app.config.globalProperties.$isLogin = () => {
   }
 }
 
-import moment from 'moment'
-app.config.globalProperties.$format = (value, format = 'YYYY-MM-DD') => value ? moment(value).format(format) : ''
+import dayjs from 'dayjs'
+app.config.globalProperties.$format = (value, format = 'YYYY-MM-DD') => value ? dayjs(value).format(format) : ''
 // // 距离格式化
 app.config.globalProperties.$distance = value => Number(value) > 1000 ? (Number(value) / 1000).toFixed(2) + 'km' :
   Number(value) + 'm'
