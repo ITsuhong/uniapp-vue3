@@ -36,7 +36,7 @@ const props = defineProps({
 const { src, errorIcon } = toRefs(props);
 const imageSrc = ref(src.value || errorIcon.value);
 const error = e => (imageSrc.value = errorIcon.value);
-watch(src,value => imageSrc.value = value)
+watch(src,value => imageSrc.value = value || errorIcon.value)
 </script>
 
 <style lang="less" scoped>
