@@ -11,7 +11,7 @@ export default defineStore('sys', {
 		    setToken(response.data.token)
 		    uni.navigateBack()
 		  } else {
-		    uni.showToast({ title: res.msg, icon: 'none', mask: true })
+		    uni.showToast({ title: response.msg, icon: 'none', mask: true })
 		  }
 		  return response
 		},
