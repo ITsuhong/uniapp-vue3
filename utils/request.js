@@ -7,6 +7,7 @@ export default async function request(url, { data, method, requestType }) {
   if (url.substr(0, 4) != 'http') url = requestUrl + url
   console.log(url, data)
   const timestamp = new Date().getTime()
+  const rand = Math.floor(Math.random() * 100) //0-100随机整数
   const response = await uni.request({
     url,
     data,
@@ -16,7 +17,8 @@ export default async function request(url, { data, method, requestType }) {
       'token': getToken() || '',
       'api-version': 1,
       timestamp,
-      apiSecret: md5(md5(timestamp + "ccys")),
+      rand,
+      apiSecret: md5(md5(timestamp + "ccys" + rand)),
     }
   }).then(res => {
     // console.log(res,123)
