@@ -13,7 +13,7 @@
             @click="handlePreview(item)"
             mode="aspectFill"
             class="uploadIcon"
-            :src="fileType == 'video' ? item.url + ossSuffix : item.url"
+            :src="handleMediaUrl(item)"
           ></image>
           <uni-icons v-if="closeAble" @click="handleDelete(index)" class="deleteIcon" type="clear" color="#f50" :size="24"></uni-icons>
         </view>
@@ -43,7 +43,6 @@
 <script setup>
 import { ossHost, ossSuffix, getToken } from '@/utils/config.js';
 import { getOSSData } from '@/utils/utils.js';
-import md5 from 'md5';
 import { ref, onMounted } from 'vue';
 const props = defineProps({
   // 默认值
@@ -59,7 +58,7 @@ const props = defineProps({
   },
   fileType: {
     type: String,
-    default: 'image' //video为视频，默认image
+    default: 'image' //video为视频，默认image, *为所有(对应chooseMedia为 mix)
   },
   boxStyle: {
     type: String,
@@ -70,6 +69,10 @@ const props = defineProps({
     default: true
   }
 });
+const handleMediaUrl = record => {
+  const fileType = /.avi|.wmv|.mpeg|.mp4|.m4v|.mov|.asf|.flv|.f4v|.rmvb|.rm|.3gp|.vob/.test(getSuffix(record.url)) ? 'video' : 'image'
+  return fileType == 'video' ? record.url + ossSuffix : record.url
+}
 const formData = ref({});
 const videoSrc = ref('');
 
@@ -78,8 +81,7 @@ onMounted(async () => {
   const videoContext = uni.createVideoContext('myVideo'); //获取video实例
   // #endif
   if (getToken()) {
-    const ossData = await getOSSData()
-    formData.value = ossData
+    formData.value = await getOSSData()
   }
 });
 
@@ -88,30 +90,42 @@ const handleDelete = index => {
   emit('update:modelValue', props.modelValue.filter((_, i) => index !== i));
 };
 const handleUploadChange = () => {
-  switch (props.fileType) {
-    case 'video':
-      uni.chooseVideo({
-        sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-        success: res => upload([{ ...res, path: res.tempFilePath }])
-      });
-      break;
-    default:
-      uni.chooseImage({
-        count: props.maxCount - props.modelValue.length, //最大值减去数组的长度
-        sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-        success: res => upload(res.tempFiles)
-      });
-      break;
-  }
+  uni.chooseMedia({
+    count: props.maxCount - props.modelValue.length, //最大值减去数组的长度, 
+    mediaType:  { 'video': ['video'], '*': ['mix'], 'image': ['image'] }[props.fileType] || ['image'], 
+    sourceType: ['album','camera'], // 可以指定来源是相册还是相机，默认二者都有
+    success: res => upload(res.tempFiles)
+  })
 };
+// 获取上传文件后缀
+const getSuffix = (filename) => {
+  const pos = filename.lastIndexOf('.')
+  let suffix = ''
+  if (pos != -1) {
+    suffix = filename.substring(pos)
+  }
+  return suffix;
+}
+
+// 上传文件重命名
+const randomString = (len) => {
+  len = len || 32;
+  var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+  var maxPos = chars.length;
+  var pwd = '';
+  for (let i = 0; i < len; i++) {
+    pwd += chars.charAt(Math.floor(Math.random() * maxPos));
+  }
+  return pwd;
+}
 const upload = files => {
   uni.showLoading({ title: '上传中...', mask: true });
   const promiseArr = files.map(item => {
     return new Promise((resolve, reject) => {
-      item.fileName = `uni/${md5(Date.parse(new Date()) + md5(item.path))}`;
+      item.fileName = `uni/${randomString(10)}${getSuffix(item.tempFilePath)}`;
       uni.uploadFile({
         url: ossHost, // 开发者服务器的URL。
-        filePath: item.path,
+        filePath: item.tempFilePath,
         name: 'file', // 必须填file。
         formData: {
           key: item.fileName,
@@ -165,16 +179,11 @@ const handlePreview = record => {
       videoContext.requestFullScreen({ direction: 0 });
       // #endif
       // #ifdef MP-WEIXIN
-      wx.previewMedia({
-        sources: [{ url: record.url, type: 'video', poster: record.url + ossSuffix }]
-      });
+      wx.previewMedia({ sources: [{ url: record.url, type: 'video', poster: record.url + ossSuffix }] });
       // #endif
       break;
     default:
-      uni.previewImage({
-        current: record.url,
-        urls: props.modelValue.map(item => item.url)
-      });
+      uni.previewImage({ urls: [record.url] });
       break;
   }
 };
