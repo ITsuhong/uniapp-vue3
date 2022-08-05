@@ -1,5 +1,5 @@
 <template>
-  <view :style="{ 'background-color': bgColor, width, height, 'min-width': width, 'border-radius': radius }">
+  <view @click="$emit('click',$event)" :style="{ 'background-color': bgColor, width, height, 'min-width': width, 'border-radius': radius }">
     <image :style="{ 'border-radius': radius }" :src="imageSrc" mode="aspectFill" lazy-load @error="error"></image>
   </view>
 </template>
