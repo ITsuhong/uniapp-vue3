@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import * as service_oss from '@/services/oss.js';
 import * as services_sys from "@/services/sys.js"
 
 export default defineStore('global', {
@@ -8,10 +7,6 @@ export default defineStore('global', {
     haveNew: false
 	}),
 	actions: {
-		async getSTSInfo() {
-		  const response = await service_oss.getSTSInfo()
-		  return response
-		},
     async checkAndroidUpdate(payload) {
       const response = await services_sys.checkAndroidUpdate({ ...payload })
       if(response.id) {

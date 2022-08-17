@@ -60,14 +60,14 @@ export function formatPrice(num) {
 import encBase64 from 'crypto-js/enc-base64';
 import HmacSHA1 from 'crypto-js/hmac-sha1';
 import encUtf8 from 'crypto-js/enc-utf8';
-import useGlobalStore from '@/stores/global';
+import * as service_oss from '@/services/oss.js';
 export async function getOSSData() {
-  const { data } = await useGlobalStore().getSTSInfo()
+  const { data } = await service_oss.getSTSInfo({})
   const policyText = {
-    expiration: data.Credentials.Expiration, // 设置policy过期时间。
+    expiration: data.expiration, // 设置policy过期时间。
     conditions: [
       // 限制上传大小。
-      ["content-length-range", 0, 500 * 1024 * 1024], 
+      ["content-length-range", 0, 10 * 1024 * 1024], 
     ],
   };
   const policy = encBase64.stringify(encUtf8.parse(JSON.stringify(policyText))) // policy必须为base64的string。
@@ -75,13 +75,35 @@ export async function getOSSData() {
   function computeSignature(accessKeySecret, canonicalString) {
     return encBase64.stringify(HmacSHA1(canonicalString, accessKeySecret));
   }
-  const signature = computeSignature(data.Credentials.AccessKeySecret, policy)
+  const signature = computeSignature(data.accessKeySecret, policy)
   const formData = {
-    OSSAccessKeyId: data.Credentials.AccessKeyId,
+    OSSAccessKeyId: data.accessKeyId,
     signature,
     policy,
-    'x-oss-security-token': data.Credentials.SecurityToken
+    'x-oss-security-token': data.securityToken
   }
   // console.log(formData)
   return formData
+}
+
+// 获取上传文件后缀
+export const getSuffix = (filename) => {
+  const pos = filename.lastIndexOf('.')
+  let suffix = ''
+  if (pos != -1) {
+    suffix = filename.substring(pos)
+  }
+  return suffix;
+}
+
+// 上传文件重命名
+export const randomString = (len) => {
+  len = len || 32;
+  var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+  var maxPos = chars.length;
+  var pwd = '';
+  for (let i = 0; i < len; i++) {
+    pwd += chars.charAt(Math.floor(Math.random() * maxPos));
+  }
+  return pwd;
 }

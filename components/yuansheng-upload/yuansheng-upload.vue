@@ -42,7 +42,7 @@
 
 <script setup>
 import { ossHost, ossSuffix, getToken } from '@/utils/config.js';
-import { getOSSData } from '@/utils/utils.js';
+import { getOSSData, getSuffix, randomString } from '@/utils/utils.js';
 import { ref, onMounted } from 'vue';
 const props = defineProps({
   // 默认值
@@ -97,27 +97,7 @@ const handleUploadChange = () => {
     success: res => upload(res.tempFiles)
   })
 };
-// 获取上传文件后缀
-const getSuffix = (filename) => {
-  const pos = filename.lastIndexOf('.')
-  let suffix = ''
-  if (pos != -1) {
-    suffix = filename.substring(pos)
-  }
-  return suffix;
-}
 
-// 上传文件重命名
-const randomString = (len) => {
-  len = len || 32;
-  var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
-  var maxPos = chars.length;
-  var pwd = '';
-  for (let i = 0; i < len; i++) {
-    pwd += chars.charAt(Math.floor(Math.random() * maxPos));
-  }
-  return pwd;
-}
 const upload = files => {
   uni.showLoading({ title: '上传中...', mask: true });
   const promiseArr = files.map(item => {
