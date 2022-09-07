@@ -94,10 +94,9 @@ page {
   font-family: 黑体;
 }
 image {
-  display: inline-block;
+  display: block;
 }
-view,
-text {
+view {
   box-sizing: border-box;
 }
 
