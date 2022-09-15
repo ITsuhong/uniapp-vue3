@@ -3,7 +3,7 @@ import md5 from 'md5';
 
 let isShowModal = false
 export default async function request(url, { data, method, requestType }) {
-  Object.keys(data).forEach(key => data[key] === undefined && delete data[key])
+  Object.keys(data).forEach(key => [undefined,null].includes(data[key]) && delete data[key])
   if (url.substr(0, 4) != 'http') url = requestUrl + url
   console.log(url, data)
   const timestamp = new Date().getTime()
