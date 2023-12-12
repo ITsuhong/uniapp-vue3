@@ -1,9 +1,3 @@
-<!-- 
- * 上传文件
- * @作者：郑超
- * @公司：四川源昇科技公司
- * @版本：v2.0.0
- -->
 <template>
   <view>
     <view class="container">
